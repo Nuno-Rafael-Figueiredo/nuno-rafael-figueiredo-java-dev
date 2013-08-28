@@ -53,4 +53,8 @@ public abstract class Wizard extends Command implements Observer {
     public boolean isValid() {
         return true;
     }
+
+    public void testCoiso(){
+
+    }
 }

@@ -6,7 +6,6 @@ import design.patterns.command.states.Aborted;
 import design.patterns.command.states.Finished;
 import design.patterns.command.states.Started;
 import design.patterns.state.Context;
-import org.testng.annotations.Test;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -33,7 +32,7 @@ public abstract class Command extends Context<Command, Command.State> implements
             this.expectedState = expectState;
         }
 
-        @org.testng.annotations.Test
+        @org.junit.Test
         public void testExecute() {
             command.execute();
             assertTrue(command.isState(expectedState));

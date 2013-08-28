@@ -1,6 +1,7 @@
 package design;
 
 import design.patterns.command.ICommand;
+import org.junit.Test;
 
 import java.text.MessageFormat;
 import java.util.Observable;

@@ -15,7 +15,15 @@ public class Salaries extends Table {
     private Salaries(){
     }
 
-    public Column empNo(){
-        return createColumn("emp_no", new Int(), Column.Property.primaryKey);
+    public Column id(){
+        return createColumn("id", new Int(), Column.Property.primaryKey);
+    }
+
+    public Column value(){
+        return createColumn("value", new Int(), Column.Property.notNull);
+    }
+
+    public Column fromDate(){
+        return createColumn("from_date", new Int(), Column.Property.notNull);
     }
 }

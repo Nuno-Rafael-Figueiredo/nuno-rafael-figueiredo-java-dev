@@ -9,7 +9,6 @@ import mysql.statements.Insert;
 import mysql.statements.Select;
 import mysql.temp.SelectExpression;
 
-import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -19,14 +18,29 @@ import java.util.Map;
  * Time: 19:21
  */
 public abstract class Table extends Base {
-    protected final Map<String, Column> columnMap = new LinkedHashMap<>();
+    private Map<String, Column> columnMap = new LinkedHashMap<>();
+
+    protected Column createColumn(String name, DataType dataType, Column.Property... flags) {
+        if (containsColumn(name))
+            return getColumn(name);
+
+        Column column = new Column(name, dataType, flags);
+
+        columnMap.put(name, column);
+
+        return column;
+    }
+
+    protected boolean containsColumn(String columnName) {
+        return columnMap.containsKey(columnName);
+    }
+
+    protected Column getColumn(String name) {
+        return columnMap.get(name);
+    }
 
     protected Table() {
         super(NamingPolicy.uppercase);
-    }
-
-    public Column getColumn(String name) {
-        return columnMap.get(name);
     }
 
     public Select selectAll() {
@@ -45,22 +59,7 @@ public abstract class Table extends Base {
         return new Delete(this);
     }
 
-    protected Column createColumn(String name, DataType dataType, Column.Property... flags) {
-        if (containsColumn(name))
-            return getColumn(name);
-
-        Column column = new Column(name, dataType, flags);
-
-        columnMap.put(name, column);
-
-        return column;
-    }
-
-    public Collection<Column> columns() {
-        return columnMap.values();
-    }
-
-    protected boolean containsColumn(String columnName) {
-        return columnMap.containsKey(columnName);
+    protected ForeignKey createForeignKey(Table table, Column.Property... properties) {
+        PrimaryKey primaryKey = table.getPrimaryKey();
     }
 }

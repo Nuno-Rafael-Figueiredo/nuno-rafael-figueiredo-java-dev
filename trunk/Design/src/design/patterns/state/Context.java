@@ -38,18 +38,18 @@ public class Context<TContext extends Context<TContext, TState>, TState extends 
         return new Memento();
     }
 
-    public Memento restore(Memento memento){
+    public void restore(Memento memento){
         this.state = memento.state;
     
         setChanged();
-        notitfyObservers(new MementoRestored(this, memento));
+        notifyObservers(new MementoRestored(this, memento));
     }
 
     public class Memento {
         public final TState state;
     
         public Memento() {
-          Memento.this.state = Context.this.state;
+            Memento.this.state = (TState) Context.this.state;
         }
     }
 }

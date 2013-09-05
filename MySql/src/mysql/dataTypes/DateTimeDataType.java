@@ -1,19 +1,18 @@
 package mysql.dataTypes;
 
 import java.text.Format;
+import java.text.SimpleDateFormat;
 
 /**
- * Created with IntelliJ IDEA.
  * User: Nuno
  * Date: 28-08-2013
  * Time: 22:21
- * To change this template use File | Settings | File Templates.
  */
 public abstract class DateTimeDataType extends DataType {
     private Format format;
 
-    public DateTimeDataType(Format format) {
-        this.format = format;
+    public DateTimeDataType(String format) {
+        this.format = new SimpleDateFormat(format);
     }
 
     @Override

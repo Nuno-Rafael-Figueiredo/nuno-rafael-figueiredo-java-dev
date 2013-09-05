@@ -1,7 +1,6 @@
 package mysql;
 
 import design.Base;
-import design.NamingPolicy;
 import mysql.clauses.SelectExpressions;
 import mysql.dataTypes.DataType;
 import mysql.statements.Delete;
@@ -9,8 +8,7 @@ import mysql.statements.Insert;
 import mysql.statements.Select;
 import mysql.temp.SelectExpression;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * User: Nuno
@@ -18,7 +16,17 @@ import java.util.Map;
  * Time: 19:21
  */
 public abstract class Table extends Base {
-    private Map<String, Column> columnMap = new LinkedHashMap<>();
+    private final Map<String, Column> columns = new LinkedHashMap<>();
+    private final PrimaryKey primaryKey = new PrimaryKey();
+    public final List<ForeignKey> foreignKeys = new ArrayList<>();
+
+    private DataBase dataBase;
+
+    public Table(DataBase dataBase) {
+        super(dataBase.tableNamingPolicies);
+
+        this.dataBase = dataBase;
+    }
 
     protected Column createColumn(String name, DataType dataType, Column.Property... flags) {
         if (containsColumn(name))
@@ -26,21 +34,25 @@ public abstract class Table extends Base {
 
         Column column = new Column(name, dataType, flags);
 
-        columnMap.put(name, column);
+        for (Column.Property flag : flags)
+            if(flag == Column.Property.primaryKey)
+                primaryKey.add(column);
+
+        columns.put(name, column);
 
         return column;
     }
 
+    private Column createColumn(Column referenced, Column.Property[] properties) {
+        return createColumn(referenced.name, referenced.dataType, properties);
+    }
+
     protected boolean containsColumn(String columnName) {
-        return columnMap.containsKey(columnName);
+        return columns.containsKey(columnName);
     }
 
     protected Column getColumn(String name) {
-        return columnMap.get(name);
-    }
-
-    protected Table() {
-        super(NamingPolicy.uppercase);
+        return columns.get(name);
     }
 
     public Select selectAll() {
@@ -61,5 +73,23 @@ public abstract class Table extends Base {
 
     protected ForeignKey createForeignKey(Table table, Column.Property... properties) {
         PrimaryKey primaryKey = table.getPrimaryKey();
+        ForeignKey foreignKey = new ForeignKey();
+
+        for (Column referenced : primaryKey){
+            Column dependent = createColumn(referenced, properties);
+            foreignKey.add(dependent);
+        }
+
+        foreignKeys.add(foreignKey);
+
+        return foreignKey;
+    }
+
+    public PrimaryKey getPrimaryKey() {
+        return primaryKey;
+    }
+
+    public Collection<Column> columns() {
+        return columns.values();
     }
 }

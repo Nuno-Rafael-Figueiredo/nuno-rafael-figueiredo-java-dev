@@ -9,3 +9,4 @@ import mysql.MySql.State;
  */
 public class Opened extends State {
 }
+

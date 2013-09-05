@@ -1,9 +1,13 @@
 package mysql.statements;
 
 import mysql.Condition;
+import mysql.MySql;
 import mysql.Table;
 import mysql.clauses.*;
 import mysql.temp.SelectExpression;
+
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 /**
  * User: Nuno
@@ -17,6 +21,8 @@ public class Select extends Statement {
     private final Having having;
     private final OrderBy<Select> orderBy;
     private final Limit<Select> limit;
+
+    private ResultSet result;
 
     public Select(SelectExpression firstSelectExpression, SelectExpression... otherSelectExpressions) {
         new SelectExpressions(this, firstSelectExpression, otherSelectExpressions);
@@ -59,5 +65,19 @@ public class Select extends Statement {
     @Override
     public boolean isValid() {
         return true;
+    }
+
+    @Override
+    protected void protectedExecute() {
+        try(MySql mySql = MySql.INSTANCE.open()){
+            PreparedStatement statement = mySql.connection.prepareStatement(toString());
+            result = statement.executeQuery();
+        } catch (Exception e) {
+            severe(e, null);
+        }
+    }
+
+    public ResultSet getResult() {
+        return result;
     }
 }

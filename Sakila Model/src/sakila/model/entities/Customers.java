@@ -1,6 +1,7 @@
 package sakila.model.entities;
 
 import mysql.Table;
+import sakila.model.Sakila;
 import sakila.model.SakilaTable;
 
 /**
@@ -11,8 +12,11 @@ import sakila.model.SakilaTable;
  * To change this template use File | Settings | File Templates.
  */
 public class Customers extends SakilaTable {
-    public static final Customers INSTANCE = new Customers();
-
     private Customers(){
+    }
+
+    @Override
+    public SakilaTable instance() {
+        return Sakila.getInstance(name);
     }
 }

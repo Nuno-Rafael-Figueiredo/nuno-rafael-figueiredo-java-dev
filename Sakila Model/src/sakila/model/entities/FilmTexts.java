@@ -1,5 +1,6 @@
 package sakila.model.entities;
 
+import sakila.model.Sakila;
 import sakila.model.SakilaTable;
 
 /**
@@ -10,5 +11,11 @@ import sakila.model.SakilaTable;
  * To change this template use File | Settings | File Templates.
  */
 public class FilmTexts extends SakilaTable {
-    public static final FilmTexts INSTANCE = new FilmTexts();
+    private FilmTexts(){
+    }
+
+    @Override
+    public SakilaTable instance() {
+        return Sakila.getInstance(name);
+    }
 }

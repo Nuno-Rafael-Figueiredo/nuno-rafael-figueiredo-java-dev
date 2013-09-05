@@ -1,5 +1,8 @@
 package sakila.model.entities;
 
+import sakila.model.Sakila;
+import sakila.model.SakilaTable;
+
 /**
  * Created with IntelliJ IDEA.
  * User: Nuno
@@ -7,5 +10,12 @@ package sakila.model.entities;
  * Time: 16:34
  * To change this template use File | Settings | File Templates.
  */
-public class Staff {
+public class Staff extends SakilaTable {
+    private Staff(){
+    }
+
+    @Override
+    public SakilaTable instance() {
+        return Sakila.getInstance(name);
+    }
 }

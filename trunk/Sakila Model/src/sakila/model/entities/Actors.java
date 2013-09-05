@@ -1,5 +1,6 @@
 package sakila.model.entities;
 
+import sakila.model.Sakila;
 import sakila.model.SakilaTable;
 
 /**
@@ -8,4 +9,11 @@ import sakila.model.SakilaTable;
  * Time: 16:25
  */
 public class Actors extends SakilaTable {
+    private Actors(){
+    }
+
+    @Override
+    public SakilaTable instance() {
+        return Sakila.getInstance(name);
+    }
 }

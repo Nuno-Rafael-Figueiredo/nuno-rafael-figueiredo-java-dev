@@ -7,8 +7,8 @@ import sakila.model.Sakila;
  * Date: 28-08-2013
  * Time: 16:19
  */
-public class SelectAllCustomersTest extends Command.Test<Select>{
-    public SelectAllCustomersTest() {
-        super(Sakila.CUSTOMERS.selectAll());
+public class SelectAllFilmTextsTest extends Command.Test<Select>{
+    public SelectAllFilmTextsTest() {
+        super(Sakila.FILM_TEXTS.selectAll());
     }
 }

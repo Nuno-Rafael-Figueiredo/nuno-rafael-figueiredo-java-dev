@@ -5,9 +5,8 @@ import design.patterns.state.IState;
 import java.io.Serializable;
 import java.util.Map;
 
-public interface ICommand extends Serializable, IState.IContext {
+public interface ICommand<TResult> extends Serializable, IState.IContext {
     public static interface IClient {
-
     }
 
     void execute();
@@ -17,4 +16,6 @@ public interface ICommand extends Serializable, IState.IContext {
     boolean isValid();
 
     void setParameterMap(Map<String, String[]> parameterMap);
+
+    TResult getResult();
 }

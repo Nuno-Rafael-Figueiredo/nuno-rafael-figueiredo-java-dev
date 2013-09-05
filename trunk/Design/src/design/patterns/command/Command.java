@@ -20,7 +20,7 @@ public abstract class Command extends Context<Command, Command.State> implements
     }
 
     public static abstract class Test<T extends Command> {
-        private T command;
+        public final T command;
         private State expectedState;
 
         protected Test(T command) {

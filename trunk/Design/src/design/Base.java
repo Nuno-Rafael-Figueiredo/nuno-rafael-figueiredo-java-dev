@@ -1,7 +1,6 @@
 package design;
 
 import design.patterns.command.ICommand;
-import org.junit.Test;
 
 import java.text.MessageFormat;
 import java.util.Observable;
@@ -16,20 +15,29 @@ public abstract class Base extends Observable implements ICommand.IClient {
         this(NamingPolicy.asIs);
     }
 
-    protected Base(NamingPolicy nameCreationType) {
-        switch (nameCreationType) {
+    protected Base(NamingPolicy... namingPolicies) {
+        String name = getClass().getSimpleName();
+
+        for(NamingPolicy namingPolicy : namingPolicies)
+        switch (namingPolicy) {
             case clause:
-                name = Utils.codify(this).toUpperCase().replace("_", " ");
+                name = Utils.codify(name).toUpperCase().replace("_", " ");
                 break;
             case uppercase:
-                name = Utils.codify(this).toUpperCase();
+                name = name.toUpperCase();
+                break;
+            case singularize:
+                name = Inflector.getInstance().singularize(name);
                 break;
             case humanize:
-                name = Utils.humanize(this);
+                name = Utils.humanize(name);
                 break;
-            default:
-                name = getClass().getSimpleName();
+            case codify:
+                name = Utils.codify(name);
+                break;
         }
+
+        this.name = name;
     }
 
     public Base(String name) {

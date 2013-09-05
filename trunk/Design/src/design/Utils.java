@@ -124,14 +124,4 @@ public class Utils {
 
     private Utils() {
     }
-
-    public static String humanize(Object o) {
-        if (o instanceof String)
-            return humanize((String) o);
-
-        if (!(o instanceof Class))
-            return humanize(o.getClass());
-
-        return humanize(((Class) o).getSimpleName());
-    }
 }

@@ -3,8 +3,11 @@ package mysql.statements;
 import design.NamingPolicy;
 import design.Utils;
 import design.patterns.command.Command;
+import mysql.MySql;
 import mysql.clauses.Clause;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
@@ -37,9 +40,5 @@ public abstract class Statement extends Command implements IStatement {
 
     public void add(Clause clause) {
         allClauses.add(clause);
-    }
-
-    @Override
-    protected void protectedExecute() {
     }
 }
